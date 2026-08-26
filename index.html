@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0d1117" />
+  <title>Bedroom HomePod</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Bedroom HomePod</h1>
+    <p class="sub">Apple Music via Shortcuts</p>
+  </header>
+
+  <main class="main">
+    <button class="play-btn" id="btn-play" type="button">
+      <span class="icon">▶</span>
+      <span class="label">Play on Bedroom HomePod</span>
+      <span class="hint">Called erotic music</span>
+    </button>
+
+    <p class="note">Opens the Shortcuts app and runs <strong>Called erotic music</strong> on your bedroom HomePod Mini. Must be used on iPhone.</p>
+
+    <details class="advanced">
+      <summary>Shortcut name doesn’t match?</summary>
+      <p class="help">Type the exact name from the Shortcuts app, then tap Play again.</p>
+      <input type="text" id="shortcut-name" value="Called erotic music" />
+    </details>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,28 +1,51 @@
-# HomePod Play
+# HomePod Play (Home Assistant)
 
-Simple mobile web page that starts an Apple Music playlist on your **bedroom HomePod Mini** by launching the iOS Shortcut **Called erotic music**.
+Mobile page that sends real HTTP calls to Home Assistant:
 
-**Live URL (after enabling Pages):**  
-https://4geekdna.github.io/homepod-play/
+```
+POST {HA_URL}/api/services/media_player/media_play_pause
+Authorization: Bearer {LONG_LIVED_TOKEN}
+{"entity_id":"media_player.your_homepod"}
+```
 
-## How it works
+Live URL: https://4geekdna.github.io/homepod-play/
 
-A browser cannot talk to a HomePod directly. This page opens:
+## Home Assistant setup
 
-`shortcuts://run-shortcut?name=Called%20erotic%20music`
+### 1. Expose the HomePod as a media player
+Use **Apple TV** integration (HomePod Mini often appears there) or another integration that creates `media_player.*` for the bedroom HomePod. Copy the entity id, e.g. `media_player.bedroom_homepod`.
 
-Your existing Shortcut then plays the playlist on the bedroom HomePod Mini.
+### 2. Create a long-lived token
+Profile (your name, lower-left) → **Security** → **Long-lived access tokens** → Create token. Copy it once.
 
-## One-time Pages setup
+### 3. Allow this webpage to call HA (required)
+GitHub Pages is `https://4geekdna.github.io`. Browsers block the request unless HA allows that origin.
 
-1. Repo → **Settings** → **Pages** (left sidebar: **Code, planning, and automation**)
-2. Source → **GitHub Actions**
-3. **Actions** tab → **Deploy to GitHub Pages** → **Run workflow**
+In `configuration.yaml`:
 
-## Use on iPhone
+```yaml
+http:
+  cors_allowed_origins:
+    - https://4geekdna.github.io
+```
 
-1. Open the live URL in Safari or Chrome
-2. Tap **Play on Bedroom HomePod**
-3. Allow the page to open Shortcuts if asked
+Restart Home Assistant.
 
-The Shortcut name must match **exactly**: `Called erotic music`
+### 4. Use HTTPS if the page is HTTPS
+An `https://` webpage cannot call `http://homeassistant.local:8123` (mixed content).
+Options:
+- Open HA over HTTPS (Nabu Casa, reverse proxy, or local TLS)
+- Or open this control page over HTTP on your LAN instead of GitHub Pages
+
+### 5. Fill the form on the page
+- HA URL: `https://your-ha-address:8123` (no trailing slash)
+- Token: the long-lived token
+- Entity: `media_player.bedroom_homepod`
+- Tap **Save & test**
+
+## What the buttons do
+- **Play** → `media_play`
+- **Pause** → `media_pause`
+- **Play / Pause** → `media_play_pause`
+- **Stop** → `media_stop`
+- **Start playlist (Shortcuts)** still launches `Called erotic music` to start the Apple Music playlist (HA play usually only resumes what is already queued)

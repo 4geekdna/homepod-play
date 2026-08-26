@@ -12,25 +12,40 @@
 <body>
   <header class="header">
     <h1>Bedroom HomePod</h1>
-    <p class="sub">Apple Music via Shortcuts</p>
+    <p class="sub" id="status-line">Home Assistant play / pause</p>
   </header>
 
   <main class="main">
-    <button class="play-btn" id="btn-play" type="button">
-      <span class="icon">▶</span>
-      <span class="label">Play on Bedroom HomePod</span>
-      <span class="hint">Called erotic music</span>
-    </button>
+    <div class="now-playing" id="now-playing">Not connected</div>
 
-    <p class="note">Opens the Shortcuts app and runs <strong>Called erotic music</strong> on your bedroom HomePod Mini. Must be used on iPhone.</p>
+    <div class="controls">
+      <button class="btn" id="btn-play" type="button">Play</button>
+      <button class="btn" id="btn-pause" type="button">Pause</button>
+    </div>
+    <div class="controls">
+      <button class="btn secondary" id="btn-toggle" type="button">Play / Pause</button>
+      <button class="btn secondary" id="btn-stop" type="button">Stop</button>
+    </div>
 
-    <details class="advanced">
-      <summary>Shortcut name doesn’t match?</summary>
-      <p class="help">Type the exact name from the Shortcuts app, then tap Play again.</p>
-      <input type="text" id="shortcut-name" value="Called erotic music" />
+    <button class="btn shortcut" id="btn-shortcut" type="button">Start playlist (Shortcuts)</button>
+
+    <details class="settings" id="settings" open>
+      <summary>Home Assistant setup</summary>
+      <label>HA URL
+        <input type="url" id="ha-url" placeholder="https://homeassistant.local:8123" />
+      </label>
+      <label>Long-lived token
+        <input type="password" id="ha-token" placeholder="Paste token" autocomplete="off" />
+      </label>
+      <label>Media player entity
+        <input type="text" id="ha-entity" placeholder="media_player.bedroom_homepod" />
+      </label>
+      <button class="btn secondary" id="btn-save" type="button">Save &amp; test</button>
+      <p class="help">Token stays only on this phone. HA must allow this page origin (see README).</p>
     </details>
   </main>
 
+  <div id="toast" class="toast"></div>
   <script src="app.js"></script>
 </body>
 </html>
